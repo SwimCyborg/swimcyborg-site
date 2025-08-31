@@ -4,88 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SwimCyborg</title>
-  <link rel="icon" href="favicon.png" sizes="any" type="image/png">
   <style>
-    body{
-      margin:0; font-family:Arial, sans-serif;
-      background: radial-gradient(circle at top, #0a1a2f, #000);
-      color:#fff; text-align:center; padding:2rem;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0a0f1c, #08101a);
+      color: #fff;
+      text-align: center;
+    }
+    .brand { margin-top: 60px; }
+    .logo {
+      max-width: 250px;
+      animation: glow 3s infinite alternate;
+    }
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 2px #00e5ff) drop-shadow(0 0 5px #00e5ff); }
+      to   { filter: drop-shadow(0 0 6px #00e5ff) drop-shadow(0 0 12px #00e5ff); }
+    }
+    h1.site-title { font-size: 2.5rem; margin-top: 20px; }
+    .swim { color: #00e5ff; }
+    .cyborg { color: #a3e7ff; }
+
+    .tagline {
+      margin: 20px 0;
+      font-size: 1.2rem;
+      color: #ccc;
     }
 
-    .brand img.logo{
-      max-width:300px; margin:0 auto; display:block;
-      /* Base glow */
-      filter:
-        drop-shadow(0 0 18px rgba(0,188,212,0.45))
-        drop-shadow(0 0 34px rgba(77,208,225,0.25));
-      /* Animated pulsing glow */
-      animation: logoPulse 3.2s ease-in-out infinite;
+    form { margin-top: 30px; }
+
+    input[type="email"] {
+      padding: 10px;
+      width: 250px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #00e5ff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #00b8cc; }
+
+    #form-status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #00e5ff;
+      min-height: 1.2em; /* keeps layout steady */
     }
 
-    /* KEYFRAMES: pulse the drop-shadow strength softly */
-    @keyframes logoPulse{
-      0%{
-        filter:
-          drop-shadow(0 0 16px rgba(0,188,212,0.40))
-          drop-shadow(0 0 30px rgba(77,208,225,0.22));
-      }
-      50%{
-        filter:
-          drop-shadow(0 0 28px rgba(0,188,212,0.70))
-          drop-shadow(0 0 58px rgba(77,208,225,0.35));
-      }
-      100%{
-        filter:
-          drop-shadow(0 0 16px rgba(0,188,212,0.40))
-          drop-shadow(0 0 30px rgba(77,208,225,0.22));
-      }
+    /* Honeypot should stay invisible to humans but present in DOM for bots */
+    .hp-wrap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #999;
     }
-
-    .site-title{
-      margin-top:.75rem; font-size:2rem; font-weight:bold;
-      /* REMOVED text glow from title */
-      /* text-shadow: none; (implicit) */
-    }
-
-    .site-title .swim{
-      background:linear-gradient(90deg,#00bcd4,#4dd0e1);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-
-    .site-title .cyborg{
-      background:linear-gradient(90deg,#b3e5fc,#00bcd4);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-
-    .tagline{
-      margin-top:1.5rem; margin-bottom:2rem; font-size:1.2rem; opacity:.85;
-    }
-
-    form{ margin-top:2rem; }
-
-    input[type="email"]{
-      padding:.75rem; border:2px solid transparent; border-radius:8px;
-      width:250px; max-width:80%; background:#fff; font-size:1rem; color:#000;
-      transition:border .3s, box-shadow .3s;
-    }
-    input[type="email"]:focus{
-      outline:none; border:2px solid #00bcd4; box-shadow:0 0 12px rgba(0,188,212,.6);
-    }
-
-    button{
-      padding:.75rem 1.5rem; margin-left:.5rem; border:none; border-radius:8px;
-      background:linear-gradient(90deg,#00bcd4,#4dd0e1);
-      color:#000; font-weight:bold; cursor:pointer; transition:opacity .3s, box-shadow .3s;
-    }
-    button:hover{ opacity:.85; box-shadow:0 0 15px rgba(0,188,212,.6); }
-
-    footer{ margin-top:3rem; font-size:.9rem; opacity:.7; }
-    footer a{ color:#4dd0e1; text-decoration:none; }
+    footer a { color: #00e5ff; text-decoration: none; }
   </style>
 </head>
 <body>
   <div class="brand">
-    <img class="logo" src="logo.png" alt="SwimCyborg logo">
+    <img class="logo" src="logo.png" alt="SwimCyborg Logo">
     <h1 class="site-title">
       <span class="swim">Swim</span><span class="cyborg">Cyborg</span>
     </h1>
@@ -93,13 +82,65 @@
 
   <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
 
-  <form action="YOUR_FORMSPREE_URL" method="POST">
-    <input type="email" name="email" placeholder="Enter your email" required>
+  <!-- Formspree form with honeypot -->
+  <form id="contact-form" action="https://formspree.io/f/xdklzepg" method="POST" autocomplete="off" novalidate>
+    <input
+      type="email"
+      name="_replyto"
+      placeholder="Enter your email"
+      aria-label="Email address"
+      required
+      inputmode="email"
+    >
+    <!-- Honeypot field (bots tend to fill it; humans never see it) -->
+    <div class="hp-wrap" aria-hidden="true">
+      <label>Leave this field empty</label>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+    </div>
+
+    <!-- Optional: identify source/page in your Formspree dashboard -->
+    <input type="hidden" name="source" value="swimcyborg.com-holding">
+
     <button type="submit">Notify Me</button>
+    <p id="form-status"></p>
   </form>
 
   <footer>
     © 2025 SwimCyborg · <a href="mailto:node@swimcyborg.com">node@swimcyborg.com</a>
   </footer>
+
+  <script>
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("form-status");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Honeypot check: if filled, silently succeed (don’t hit Formspree)
+      const hp = form.querySelector('input[name="_gotcha"]');
+      if (hp && hp.value.trim() !== "") {
+        status.textContent = "✅ Thanks, we’ll be in touch!";
+        form.reset();
+        return;
+      }
+
+      const data = new FormData(form);
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          status.textContent = "✅ Thanks, we’ll be in touch!";
+          form.reset();
+        } else {
+          status.textContent = "⚠️ Oops! There was a problem submitting your form.";
+        }
+      } catch (err) {
+        status.textContent = "⚠️ Network error. Please try again.";
+      }
+    });
+  </script>
 </body>
 </html>
