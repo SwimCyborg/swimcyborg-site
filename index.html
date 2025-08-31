@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SwimCyborg</title>
+  <link rel="icon" href="favicon.png" sizes="any" type="image/png">
+  <style>
+    body{
+      margin:0; font-family:Arial, sans-serif;
+      background: radial-gradient(circle at top, #0a1a2f, #000);
+      color:#fff; text-align:center; padding:2rem;
+    }
+
+    .brand img.logo{
+      max-width:300px; margin:0 auto; display:block;
+      /* Base glow */
+      filter:
+        drop-shadow(0 0 18px rgba(0,188,212,0.45))
+        drop-shadow(0 0 34px rgba(77,208,225,0.25));
+      /* Animated pulsing glow */
+      animation: logoPulse 3.2s ease-in-out infinite;
+    }
+
+    /* KEYFRAMES: pulse the drop-shadow strength softly */
+    @keyframes logoPulse{
+      0%{
+        filter:
+          drop-shadow(0 0 16px rgba(0,188,212,0.40))
+          drop-shadow(0 0 30px rgba(77,208,225,0.22));
+      }
+      50%{
+        filter:
+          drop-shadow(0 0 28px rgba(0,188,212,0.70))
+          drop-shadow(0 0 58px rgba(77,208,225,0.35));
+      }
+      100%{
+        filter:
+          drop-shadow(0 0 16px rgba(0,188,212,0.40))
+          drop-shadow(0 0 30px rgba(77,208,225,0.22));
+      }
+    }
+
+    .site-title{
+      margin-top:.75rem; font-size:2rem; font-weight:bold;
+      /* REMOVED text glow from title */
+      /* text-shadow: none; (implicit) */
+    }
+
+    .site-title .swim{
+      background:linear-gradient(90deg,#00bcd4,#4dd0e1);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+
+    .site-title .cyborg{
+      background:linear-gradient(90deg,#b3e5fc,#00bcd4);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+
+    .tagline{
+      margin-top:1.5rem; margin-bottom:2rem; font-size:1.2rem; opacity:.85;
+    }
+
+    form{ margin-top:2rem; }
+
+    input[type="email"]{
+      padding:.75rem; border:2px solid transparent; border-radius:8px;
+      width:250px; max-width:80%; background:#fff; font-size:1rem; color:#000;
+      transition:border .3s, box-shadow .3s;
+    }
+    input[type="email"]:focus{
+      outline:none; border:2px solid #00bcd4; box-shadow:0 0 12px rgba(0,188,212,.6);
+    }
+
+    button{
+      padding:.75rem 1.5rem; margin-left:.5rem; border:none; border-radius:8px;
+      background:linear-gradient(90deg,#00bcd4,#4dd0e1);
+      color:#000; font-weight:bold; cursor:pointer; transition:opacity .3s, box-shadow .3s;
+    }
+    button:hover{ opacity:.85; box-shadow:0 0 15px rgba(0,188,212,.6); }
+
+    footer{ margin-top:3rem; font-size:.9rem; opacity:.7; }
+    footer a{ color:#4dd0e1; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="brand">
+    <img class="logo" src="logo.png" alt="SwimCyborg logo">
+    <h1 class="site-title">
+      <span class="swim">Swim</span><span class="cyborg">Cyborg</span>
+    </h1>
+  </div>
+
+  <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
+
+  <form action="YOUR_FORMSPREE_URL" method="POST">
+    <input type="email" name="email" placeholder="Enter your email" required>
+    <button type="submit">Notify Me</button>
+  </form>
+
+  <footer>
+    © 2025 SwimCyborg · <a href="mailto:node@swimcyborg.com">node@swimcyborg.com</a>
+  </footer>
+</body>
+</html>
