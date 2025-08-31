@@ -71,17 +71,21 @@
     }
 
     .main{
-      display:grid;
-      place-content:center;
-      gap:14px;
-      padding:16px;
-    }
+  display:grid;
+  place-content:center;      /* centers the grid as a whole */
+  place-items:center;        /* <-- centers each child (logo, h1, text, form) */
+  gap:14px;
+  padding:16px;
+}
 
-    .logo{
-      width:clamp(260px, 32vw, 380px);
-      filter:drop-shadow(0 0 8px #00f7ff);
-      animation:pulse 1071ms infinite alternate; /* 56 bpm */
-    }
+.logo{
+  width:clamp(260px, 32vw, 380px);
+  display:block;             /* <-- make it a block */
+  margin-inline:auto;        /* <-- hard center horizontally */
+  filter:drop-shadow(0 0 8px #00f7ff);
+  animation:pulse 1071ms infinite alternate;
+}
+
     @keyframes pulse{
       from{ filter:drop-shadow(0 0 6px #00f7ff); }
       to  { filter:drop-shadow(0 0 28px #00f7ff); }
