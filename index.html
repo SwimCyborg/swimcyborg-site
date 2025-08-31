@@ -2,103 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SwimCyborg</title>
 
-  <!-- Favicon (PNG) -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
-  <!-- Optional: cache-bust if needed -->
-  <!-- <link rel="icon" type="image/png" href="favicon.png?v=2"> -->
+
+  <meta name="theme-color" content="#0a0f1f" />
 
   <style>
-    :root{
-      --accent:#00cfff;
-      --accent-soft:#66e0ff;
+    :root {
+      --accent: #00cfff;
+      --accent-soft: #66e0ff;
+      --bg-top: #0a0f1f;
+      --bg-bottom: #111a33;
+      --text-dim: #d4d8e1;
     }
 
-    body{
-      margin:0;
-      padding:0;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-      background:linear-gradient(to bottom,#0a0f1f,#111a33);
-      color:#fff;
-      font-family:Arial,Helvetica,sans-serif;
-      text-align:center;
+    /* Page background fix for mobile landscape */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
     }
 
-    /* Responsive logo size: scales with viewport, bounded by min/max */
-    .logo{
-      width:clamp(240px, 24vw, 280px);
-      animation:pulse 1071ms infinite alternate; /* 56 bpm */
-    }
-    @keyframes pulse{
-      from{ filter:drop-shadow(0 0 2px #00f7ff); }
-      to  { filter:drop-shadow(0 0 20px #00f7ff); }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      /* Full-viewport background */
+      background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+
+      min-height: 100vh;   /* cover vertically */
+      width: 100vw;        /* cover horizontally */
+      overflow-x: hidden;  /* stop white strip on rotate */
+
+      color: #fff;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    h1{
-      font-size:clamp(2.2rem, 4.2vw, 3.2rem);
-      margin:20px 0 10px;
-    }
-    .swim{ color:var(--accent); }
-    .cyborg{ color:#fff; }
-
-    .tagline{
-      font-size:clamp(1.05rem, 2.2vw, 1.25rem);
-      margin-bottom:22px;
-      color:#d4d8e1;
+    .brand {
+      display: grid;
+      place-items: center;
+      gap: 10px;
+      padding: 16px;
     }
 
-    form{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:10px;
-      margin-bottom:18px;
-      flex-wrap:wrap;
+    /* Responsive logo size */
+    .logo {
+      width: clamp(220px, 24vw, 300px);
+      animation: pulse 1071ms infinite alternate; /* ~56 bpm */
+      filter: drop-shadow(0 0 6px #00f7ff);
     }
-    input[type="email"]{
-      padding:12px 14px;
-      font-size:1rem;
-      border-radius:8px;
-      border:none;
-      width:min(320px, 70vw);
+    @keyframes pulse {
+      from { filter: drop-shadow(0 0 4px #00f7ff); }
+      to   { filter: drop-shadow(0 0 24px #00f7ff); }
     }
-    button{
-      padding:12px 18px;
-      font-size:1rem;
-      border:none;
-      border-radius:8px;
-      background:var(--accent);
-      color:#000;
-      cursor:pointer;
-      font-weight:700;
-    }
-    button:hover{ background:#00aacc; }
 
-    #form-message{ margin-top:10px; font-size:.95rem; }
-
-    footer{
-      margin-top:28px;
-      font-size:.9rem;
-      color:#aab2c3;
+    h1 {
+      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+      margin: 8px 0 6px;
+      line-height: 1.1;
     }
-    a{ color:var(--accent); text-decoration:none; }
+    .swim { color: var(--accent); }
+    .cyborg { color: #fff; }
+
+    .tagline {
+      font-size: clamp(1.02rem, 2.1vw, 1.22rem);
+      color: var(--text-dim);
+      margin: 6px 0 18px;
+    }
+
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding: 0 12px;
+    }
+
+    input[type="email"] {
+      padding: 12px 14px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      width: min(340px, 72vw);
+      outline: none;
+    }
+
+    button {
+      padding: 12px 18px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: #00aacc; }
+
+    #form-message {
+      margin-top: 10px;
+      font-size: .95rem;
+      min-height: 1.2em; /* keep layout stable */
+    }
+
+    footer {
+      margin-top: 26px;
+      font-size: .9rem;
+      color: #aab2c3;
+      padding-bottom: 16px;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <img src="logo.png" alt="SwimCyborg Logo" class="logo">
-  <h1><span class="swim">Swim</span><span class="cyborg">Cyborg</span></h1>
+  <div class="brand">
+    <img src="logo.png" alt="SwimCyborg Logo" class="logo" />
+    <h1><span class="swim">Swim</span><span class="cyborg">Cyborg</span></h1>
+  </div>
+
   <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
 
   <form id="notify-form" action="https://formspree.io/f/xdklzepg" method="POST">
-    <input type="email" name="email" id="email" placeholder="Enter your email" required>
-    <!-- Honeypot -->
-    <input type="text" name="_gotcha" style="display:none">
+    <input type="email" name="email" id="email" placeholder="Enter your email" required />
+    <!-- Honeypot: hidden from humans, bots tend to fill it -->
+    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
     <button type="submit">Notify Me</button>
   </form>
 
@@ -109,44 +150,58 @@
   </footer>
 
   <script>
-    const form = document.getElementById("notify-form");
-    const message = document.getElementById("form-message");
-    const submittedEmails = new Set();
+    // Duplicate protection with persistence across refresh using localStorage.
+    (function () {
+      const form = document.getElementById("notify-form");
+      const emailInput = document.getElementById("email");
+      const message = document.getElementById("form-message");
 
-    form.addEventListener("submit", async function(event) {
-      event.preventDefault();
-
-      const email = document.getElementById("email").value.trim().toLowerCase();
-
-      if (submittedEmails.has(email)) {
-        message.textContent = "You've already signed up with this email.";
-        message.style.color = "orange";
-        return;
+      function getSubmitted() {
+        try { return JSON.parse(localStorage.getItem("submittedEmails") || "[]"); }
+        catch { return []; }
+      }
+      function setSubmitted(arr) {
+        localStorage.setItem("submittedEmails", JSON.stringify(arr));
       }
 
-      const formData = new FormData(form);
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      try {
-        const response = await fetch(form.action, {
-          method: form.method,
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
+        const email = (emailInput.value || "").trim().toLowerCase();
+        if (!email) return;
 
-        if (response.ok) {
-          submittedEmails.add(email);
-          message.textContent = "✅ Thanks, we'll be in touch!";
-          message.style.color = "lightgreen";
-          form.reset();
-        } else {
-          message.textContent = "❌ Something went wrong. Please try again.";
-          message.style.color = "red";
+        const submitted = getSubmitted();
+        if (submitted.includes(email)) {
+          message.style.color = "orange";
+          message.textContent = "⚠️ You’ve already signed up with this email.";
+          return;
         }
-      } catch (error) {
-        message.textContent = "⚠️ Network error. Please try later.";
-        message.style.color = "red";
-      }
-    });
+
+        const data = new FormData(form);
+
+        try {
+          const res = await fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: { "Accept": "application/json" }
+          });
+
+          if (res.ok) {
+            submitted.push(email);
+            setSubmitted(submitted);
+            message.style.color = "lime";
+            message.textContent = "✅ Thanks, we’ll be in touch!";
+            form.reset();
+          } else {
+            message.style.color = "red";
+            message.textContent = "❌ Oops! Something went wrong.";
+          }
+        } catch {
+          message.style.color = "red";
+          message.textContent = "❌ Network error, please try again.";
+        }
+      });
+    })();
   </script>
 </body>
 </html>
