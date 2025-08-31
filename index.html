@@ -2,28 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SwimCyborg</title>
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
-
-  <meta name="theme-color" content="#0a0f1f" />
 
   <style>
     :root {
-      --accent: #00cfff;
-      --accent-soft: #66e0ff;
-      --bg-top: #0a0f1f;
-      --bg-bottom: #111a33;
-      --text-dim: #d4d8e1;
-    }
-
-    /* Page background fix for mobile landscape */
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+      --bg-top: #0a0f29;
+      --bg-bottom: #000000;
+      --swim-blue: #00cfff;
+      --cyborg-white: #ffffff;
     }
 
     body {
@@ -32,176 +20,182 @@
       align-items: center;
       justify-content: center;
 
-      /* Full-viewport background */
+      /* Background gradient fix for iOS Safari */
       background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
       background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
 
-      min-height: 100vh;   /* cover vertically */
-      width: 100vw;        /* cover horizontally */
-      overflow-x: hidden;  /* stop white strip on rotate */
+      min-height: 100vh;
+      min-height: -webkit-fill-available; /* iOS Safari */
+      width: 100vw;
 
+      margin: 0;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+
+      overflow-x: hidden;
       color: #fff;
       text-align: center;
       font-family: Arial, Helvetica, sans-serif;
     }
 
     .brand {
-      display: grid;
-      place-items: center;
-      gap: 10px;
-      padding: 16px;
+      margin-bottom: 20px;
     }
 
-    /* Responsive logo size */
     .logo {
-      width: clamp(220px, 24vw, 300px);
-      animation: pulse 1071ms infinite alternate; /* ~56 bpm */
-      filter: drop-shadow(0 0 6px #00f7ff);
-    }
-    @keyframes pulse {
-      from { filter: drop-shadow(0 0 4px #00f7ff); }
-      to   { filter: drop-shadow(0 0 24px #00f7ff); }
+      width: 200px;
+      max-width: 60vw;
+      filter: drop-shadow(0 0 10px #00cfff);
+      animation: pulseGlow 1071ms infinite alternate;
     }
 
-    h1 {
-      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-      margin: 8px 0 6px;
-      line-height: 1.1;
+    @keyframes pulseGlow {
+      from {
+        filter: drop-shadow(0 0 4px #00cfff);
+      }
+      to {
+        filter: drop-shadow(0 0 20px #00cfff);
+      }
     }
-    .swim { color: var(--accent); }
-    .cyborg { color: #fff; }
+
+    h1.site-title {
+      font-size: 2.5em;
+      margin: 10px 0 0;
+    }
+
+    h1 .swim {
+      color: var(--swim-blue);
+    }
+
+    h1 .cyborg {
+      color: var(--cyborg-white);
+    }
 
     .tagline {
-      font-size: clamp(1.02rem, 2.1vw, 1.22rem);
-      color: var(--text-dim);
-      margin: 6px 0 18px;
+      margin: 15px 0;
+      font-size: 1.2em;
+      color: #ccc;
     }
 
     form {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: 20px;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 10px;
-      padding: 0 12px;
     }
 
     input[type="email"] {
-      padding: 12px 14px;
-      font-size: 1rem;
+      padding: 10px;
+      font-size: 1em;
       border: none;
-      border-radius: 8px;
-      width: min(340px, 72vw);
-      outline: none;
+      border-radius: 6px;
+      width: 250px;
+      max-width: 80%;
     }
 
     button {
-      padding: 12px 18px;
-      font-size: 1rem;
+      padding: 10px 20px;
+      font-size: 1em;
       border: none;
-      border-radius: 8px;
-      background: var(--accent);
+      border-radius: 6px;
+      background-color: var(--swim-blue);
       color: #000;
-      font-weight: 700;
       cursor: pointer;
+      transition: background 0.3s;
     }
-    button:hover { background: #00aacc; }
 
-    #form-message {
-      margin-top: 10px;
-      font-size: .95rem;
-      min-height: 1.2em; /* keep layout stable */
+    button:hover {
+      background-color: #00aacc;
+    }
+
+    #confirmation {
+      margin-top: 15px;
+      font-size: 1em;
+      color: #00ff99;
+      display: none;
     }
 
     footer {
-      margin-top: 26px;
-      font-size: .9rem;
-      color: #aab2c3;
-      padding-bottom: 16px;
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #888;
     }
+
     footer a {
-      color: var(--accent);
+      color: var(--swim-blue);
       text-decoration: none;
     }
   </style>
 </head>
 <body>
   <div class="brand">
-    <img src="logo.png" alt="SwimCyborg Logo" class="logo" />
-    <h1><span class="swim">Swim</span><span class="cyborg">Cyborg</span></h1>
+    <img class="logo" src="logo.png" alt="SwimCyborg logo">
+    <h1 class="site-title">
+      <span class="swim">Swim</span><span class="cyborg">Cyborg</span>
+    </h1>
   </div>
 
   <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
 
-  <form id="notify-form" action="https://formspree.io/f/xdklzepg" method="POST">
-    <input type="email" name="email" id="email" placeholder="Enter your email" required />
-    <!-- Honeypot: hidden from humans, bots tend to fill it -->
-    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+  <form id="notifyForm" action="https://formspree.io/f/xdklzepg" method="POST">
+    <input type="email" name="email" id="emailInput" placeholder="Enter your email" required>
     <button type="submit">Notify Me</button>
   </form>
 
-  <p id="form-message"></p>
+  <p id="confirmation">✅ Thanks, we’ll be in touch!</p>
 
   <footer>
     © 2025 SwimCyborg · <a href="mailto:node@swimcyborg.com">node@swimcyborg.com</a>
   </footer>
 
   <script>
-    // Duplicate protection with persistence across refresh using localStorage.
-    (function () {
-      const form = document.getElementById("notify-form");
-      const emailInput = document.getElementById("email");
-      const message = document.getElementById("form-message");
+    const form = document.getElementById("notifyForm");
+    const emailInput = document.getElementById("emailInput");
+    const confirmation = document.getElementById("confirmation");
 
-      function getSubmitted() {
-        try { return JSON.parse(localStorage.getItem("submittedEmails") || "[]"); }
-        catch { return []; }
+    // Load stored emails from localStorage
+    let submittedEmails = JSON.parse(localStorage.getItem("submittedEmails")) || [];
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim().toLowerCase();
+
+      if (submittedEmails.includes(email)) {
+        confirmation.style.display = "block";
+        confirmation.textContent = "⚠️ You’ve already signed up with this email.";
+        confirmation.style.color = "#ffcc00";
+        return;
       }
-      function setSubmitted(arr) {
-        localStorage.setItem("submittedEmails", JSON.stringify(arr));
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          submittedEmails.push(email);
+          localStorage.setItem("submittedEmails", JSON.stringify(submittedEmails));
+
+          form.reset();
+          confirmation.style.display = "block";
+          confirmation.textContent = "✅ Thanks, we’ll be in touch!";
+          confirmation.style.color = "#00ff99";
+        } else {
+          confirmation.style.display = "block";
+          confirmation.textContent = "❌ Oops, something went wrong. Try again.";
+          confirmation.style.color = "#ff4444";
+        }
+      } catch (err) {
+        confirmation.style.display = "block";
+        confirmation.textContent = "❌ Network error. Please try again.";
+        confirmation.style.color = "#ff4444";
       }
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const email = (emailInput.value || "").trim().toLowerCase();
-        if (!email) return;
-
-        const submitted = getSubmitted();
-        if (submitted.includes(email)) {
-          message.style.color = "orange";
-          message.textContent = "⚠️ You’ve already signed up with this email.";
-          return;
-        }
-
-        const data = new FormData(form);
-
-        try {
-          const res = await fetch(form.action, {
-            method: form.method,
-            body: data,
-            headers: { "Accept": "application/json" }
-          });
-
-          if (res.ok) {
-            submitted.push(email);
-            setSubmitted(submitted);
-            message.style.color = "lime";
-            message.textContent = "✅ Thanks, we’ll be in touch!";
-            form.reset();
-          } else {
-            message.style.color = "red";
-            message.textContent = "❌ Oops! Something went wrong.";
-          }
-        } catch {
-          message.style.color = "red";
-          message.textContent = "❌ Network error, please try again.";
-        }
-      });
-    })();
+    });
   </script>
 </body>
 </html>
