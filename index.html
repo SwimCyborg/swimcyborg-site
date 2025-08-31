@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SwimCyborg</title>
 
   <!-- Favicon -->
@@ -27,151 +27,182 @@
   <meta name="twitter:image" content="https://swimcyborg.com/logo.png" />
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(to bottom, #0a0f1c, #0f2027);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    :root{
+      --bg-top:#0a0f29;
+      --bg-bottom:#0b1733;
+      --swim:#00cfff;
+      --text-dim:#cfd6e6;
     }
 
-    .logo {
-      width: 180px;
-      max-width: 80%;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 12px #00e0ff);
-      animation: glowPulse 1071ms infinite alternate;
+    /* Dark fallback so even before paint there's no white flash */
+    html, body { height:100%; background-color:#0a0f29; }
+
+    /* SAFE-AREA padding for iOS */
+    body{
+      margin:0;
+      color:#fff;
+      font-family:Arial, Helvetica, sans-serif;
+      text-align:center;
+      padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      overflow-x:hidden;
+      overscroll-behavior:none; /* avoids bounce exposing background */
     }
 
-    @keyframes glowPulse {
-      from { filter: drop-shadow(0 0 4px #00e0ff); }
-      to { filter: drop-shadow(0 0 20px #00e0ff); }
+    /* The bullet-proof background: a fixed, full-screen layer behind everything */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;              /* top:0; right:0; bottom:0; left:0 */
+      z-index:-1;
+      background:linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+      /* cover the whole screen across devices */
+      width:100vw;
+      height:100vh;
+      /* use dynamic viewport when available */
+      height:100svh;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      margin: 0;
+    /* Layout wrapper always at least viewport height */
+    .page{
+      min-height:100vh;
+      min-height:100svh;   /* modern browsers account for browser UI */
+      display:grid;
+      grid-template-rows:1fr auto; /* main + footer */
     }
 
-    .swim { color: #00cfff; }
-    .cyborg { color: #ffffff; }
-
-    .tagline {
-      margin: 15px 0 25px;
-      font-size: 1.1rem;
-      color: #cccccc;
+    .main{
+      display:grid;
+      place-content:center;
+      gap:14px;
+      padding:16px;
     }
 
-    form {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
+    .logo{
+      width:clamp(260px, 32vw, 380px);
+      filter:drop-shadow(0 0 8px #00f7ff);
+      animation:pulse 1071ms infinite alternate; /* 56 bpm */
+    }
+    @keyframes pulse{
+      from{ filter:drop-shadow(0 0 6px #00f7ff); }
+      to  { filter:drop-shadow(0 0 28px #00f7ff); }
     }
 
-    input[type="email"] {
-      padding: 12px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 6px;
-      width: 250px;
-      max-width: 80%;
+    h1{
+      margin:6px 0 0;
+      font-size:clamp(2.2rem,4.4vw,3.4rem);
+      line-height:1.1;
+    }
+    .swim{ color:var(--swim); }
+    .cyborg{ color:#fff; }
+
+    .tagline{
+      color:var(--text-dim);
+      font-size:clamp(1.05rem,2.2vw,1.25rem);
+      margin:6px 0 8px;
     }
 
-    button {
-      padding: 12px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 6px;
-      background: #00cfff;
-      color: black;
-      cursor: pointer;
-      transition: 0.3s;
+    form{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+      padding:0 12px;
     }
-
-    button:hover { background: #00aacc; }
-
-    footer {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #888;
+    input[type="email"]{
+      width:min(360px,74vw);
+      padding:12px 14px; font-size:1rem; border:none; border-radius:8px; outline:none;
     }
-
-    footer a {
-      color: #00cfff;
-      text-decoration: none;
+    button{
+      padding:12px 18px; font-size:1rem; border:none; border-radius:8px;
+      background:var(--swim); color:#000; font-weight:700; cursor:pointer;
     }
+    button:hover{ background:#00aacc; }
 
-    footer a:hover { text-decoration: underline; }
+    #form-message{ min-height:1.2em; margin-top:8px; font-size:.95rem; }
 
-    /* Prevent white edges in mobile landscape */
-    html, body {
-      width: 100%;
-      overflow-x: hidden;
+    footer{
+      margin-top:10px;
+      padding:16px;
+      color:#aab2c3;
+      font-size:.9rem;
+    }
+    footer a{ color:var(--swim); text-decoration:none; }
+
+    /* Landscape polish on short devices */
+    @media (orientation:landscape) and (max-height: 480px){
+      .logo{ width:clamp(240px, 40vw, 420px); }
+      .tagline{ font-size:1rem; }
+      form{ gap:8px; }
     }
   </style>
 </head>
 <body>
-  <div class="brand">
-    <img class="logo" src="logo.png" alt="SwimCyborg logo" />
-    <h1><span class="swim">Swim</span><span class="cyborg">Cyborg</span></h1>
+  <div class="page">
+    <main class="main">
+      <img class="logo" src="logo.png" alt="SwimCyborg logo" />
+      <h1><span class="swim">Swim</span><span class="cyborg">Cyborg</span></h1>
+      <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
+
+      <form id="notify-form" action="https://formspree.io/f/xdklzepg" method="POST">
+        <input type="email" name="email" id="email" placeholder="Enter your email" required />
+        <!-- honeypot -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+        <button type="submit">Notify Me</button>
+      </form>
+
+      <p id="form-message"></p>
+    </main>
+
+    <footer>
+      © 2025 SwimCyborg · <a href="mailto:node@swimcyborg.com">node@swimcyborg.com</a>
+    </footer>
   </div>
 
-  <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
-
-  <form id="notifyForm" action="https://formspree.io/f/xdklzepg" method="POST">
-    <input type="email" name="email" id="emailInput" placeholder="Enter your email" required>
-    <button type="submit">Notify Me</button>
-  </form>
-
-  <p id="formMessage" style="display:none; color:#00ff88; font-size:1rem;">✅ Thanks, we’ll be in touch!</p>
-  <p id="duplicateMessage" style="display:none; color:#ff4444; font-size:1rem;">⚠️ You’ve already signed up with that email.</p>
-
-  <footer>
-    © 2025 SwimCyborg · <a href="mailto:node@swimcyborg.com">node@swimcyborg.com</a>
-  </footer>
-
   <script>
-    const form = document.getElementById('notifyForm');
-    const emailInput = document.getElementById('emailInput');
-    const formMessage = document.getElementById('formMessage');
-    const duplicateMessage = document.getElementById('duplicateMessage');
+    // Duplicate-protection with localStorage + friendly messages
+    (function(){
+      const form = document.getElementById('notify-form');
+      const emailInput = document.getElementById('email');
+      const msg = document.getElementById('form-message');
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = emailInput.value.trim();
+      const getList = () => {
+        try { return JSON.parse(localStorage.getItem('submittedEmails') || '[]'); }
+        catch { return []; }
+      };
+      const setList = (arr) => localStorage.setItem('submittedEmails', JSON.stringify(arr));
 
-      if (localStorage.getItem('submittedEmail') === email) {
-        duplicateMessage.style.display = 'block';
-        formMessage.style.display = 'none';
-        return;
-      }
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = (emailInput.value || '').trim().toLowerCase();
+        if (!email) return;
 
-      const formData = new FormData(form);
-
-      fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      }).then(response => {
-        if (response.ok) {
-          form.reset();
-          formMessage.style.display = 'block';
-          duplicateMessage.style.display = 'none';
-          localStorage.setItem('submittedEmail', email);
-        } else {
-          alert("Oops! There was a problem submitting your form.");
+        const list = getList();
+        if (list.includes(email)) {
+          msg.textContent = "⚠️ You’ve already signed up with this email.";
+          msg.style.color = "orange";
+          return;
         }
-      }).catch(() => {
-        alert("Something went wrong. Please try again later.");
+
+        try {
+          const res = await fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (res.ok) {
+            list.push(email);
+            setList(list);
+            msg.textContent = "✅ Thanks, we’ll be in touch!";
+            msg.style.color = "lime";
+            form.reset();
+          } else {
+            msg.textContent = "❌ Oops! Something went wrong.";
+            msg.style.color = "red";
+          }
+        } catch {
+          msg.textContent = "❌ Network error. Please try again.";
+          msg.style.color = "red";
+        }
       });
-    });
+    })();
   </script>
 </body>
 </html>
