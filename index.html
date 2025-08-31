@@ -1,144 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SwimCyborg</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #0a0f1f, #111a33);
+      color: white;
       font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #0a0f1c, #08101a);
-      color: #fff;
       text-align: center;
     }
-    .brand { margin-top: 60px; }
     .logo {
-      max-width: 250px;
-      animation: glow 2.14s infinite alternate;
+      width: 180px;
+      animation: pulse 1071ms infinite alternate; /* ~56 bpm */
     }
-    @keyframes glow {
-      from { filter: drop-shadow(0 0 2px #00e5ff) drop-shadow(0 0 5px #00e5ff); }
-      to   { filter: drop-shadow(0 0 6px #00e5ff) drop-shadow(0 0 12px #00e5ff); }
+    @keyframes pulse {
+      from { filter: drop-shadow(0 0 2px #00f7ff); }
+      to { filter: drop-shadow(0 0 20px #00f7ff); }
     }
-    h1.site-title { font-size: 2.5rem; margin-top: 20px; }
-    .swim { color: #00e5ff; }
-    .cyborg { color: #a3e7ff; }
-
+    h1 {
+      font-size: 2.5rem;
+      margin: 20px 0 10px;
+    }
+    .swim { color: #00cfff; }
+    .cyborg { color: #ffffff; }
     .tagline {
-      margin: 20px 0;
       font-size: 1.2rem;
-      color: #ccc;
+      margin-bottom: 20px;
     }
-
-    form { margin-top: 30px; }
-
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
     input[type="email"] {
       padding: 10px;
-      width: 250px;
+      font-size: 1rem;
       border-radius: 5px;
       border: none;
-      outline: none;
-      font-size: 1rem;
+      width: 250px;
     }
     button {
       padding: 10px 20px;
-      margin-left: 10px;
+      font-size: 1rem;
       border: none;
       border-radius: 5px;
-      background: #00e5ff;
-      color: #000;
-      font-weight: bold;
+      background-color: #00cfff;
+      color: black;
       cursor: pointer;
     }
-    button:hover { background: #00b8cc; }
-
-    #form-status {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #00e5ff;
-      min-height: 1.2em; /* keeps layout steady */
+    button:hover {
+      background-color: #00aacc;
     }
-
-    /* Honeypot should stay invisible to humans but present in DOM for bots */
-    .hp-wrap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-    
     footer {
-      margin-top: 60px;
-      padding: 20px;
+      margin-top: 20px;
       font-size: 0.9rem;
-      color: #999;
+      color: #aaa;
     }
-    footer a { color: #00e5ff; text-decoration: none; }
+    a {
+      color: #00cfff;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <div class="brand">
-    <img class="logo" src="logo.png" alt="SwimCyborg Logo">
-    <h1 class="site-title">
-      <span class="swim">Swim</span><span class="cyborg">Cyborg</span>
-    </h1>
-  </div>
-
+  <img src="logo.png" alt="SwimCyborg Logo" class="logo">
+  <h1><span class="swim">Swim</span><span class="cyborg">Cyborg</span></h1>
   <p class="tagline">Performance meets technology. We’re training the platform — launching soon.</p>
 
-  <!-- Formspree form with honeypot -->
-  <form id="contact-form" action="https://formspree.io/f/xdklzepg" method="POST" autocomplete="off" novalidate>
-    <input
-      type="email"
-      name="_replyto"
-      placeholder="Enter your email"
-      aria-label="Email address"
-      required
-      inputmode="email"
-    >
-    <!-- Honeypot field (bots tend to fill it; humans never see it) -->
-    <div class="hp-wrap" aria-hidden="true">
-      <label>Leave this field empty</label>
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
-    </div>
-
-    <!-- Optional: identify source/page in your Formspree dashboard -->
-    <input type="hidden" name="source" value="swimcyborg.com-holding">
-
+  <form id="notify-form" action="https://formspree.io/f/xdklzepg" method="POST">
+    <input type="email" name="email" id="email" placeholder="Enter your email" required>
+    <!-- Honeypot -->
+    <input type="text" name="_gotcha" style="display:none">
     <button type="submit">Notify Me</button>
-    <p id="form-status"></p>
   </form>
+
+  <p id="form-message"></p>
 
   <footer>
     © 2025 SwimCyborg · <a href="mailto:node@swimcyborg.com">node@swimcyborg.com</a>
   </footer>
 
   <script>
-    const form = document.getElementById("contact-form");
-    const status = document.getElementById("form-status");
+    const form = document.getElementById("notify-form");
+    const message = document.getElementById("form-message");
+    const submittedEmails = new Set();
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
 
-      // Honeypot check: if filled, silently succeed (don’t hit Formspree)
-      const hp = form.querySelector('input[name="_gotcha"]');
-      if (hp && hp.value.trim() !== "") {
-        status.textContent = "✅ Thanks, we’ll be in touch!";
-        form.reset();
+      const email = document.getElementById("email").value.trim().toLowerCase();
+
+      if (submittedEmails.has(email)) {
+        message.textContent = "You've already signed up with this email.";
+        message.style.color = "orange";
         return;
       }
 
-      const data = new FormData(form);
+      const formData = new FormData(form);
+
       try {
         const response = await fetch(form.action, {
           method: form.method,
-          body: data,
+          body: formData,
           headers: { 'Accept': 'application/json' }
         });
+
         if (response.ok) {
-          status.textContent = "✅ Thanks, we’ll be in touch!";
+          submittedEmails.add(email);
+          message.textContent = "✅ Thanks, we'll be in touch!";
+          message.style.color = "lightgreen";
           form.reset();
         } else {
-          status.textContent = "⚠️ Oops! There was a problem submitting your form.";
+          message.textContent = "❌ Something went wrong. Please try again.";
+          message.style.color = "red";
         }
-      } catch (err) {
-        status.textContent = "⚠️ Network error. Please try again.";
+      } catch (error) {
+        message.textContent = "⚠️ Network error. Please try later.";
+        message.style.color = "red";
       }
     });
   </script>
