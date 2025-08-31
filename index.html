@@ -1,76 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SwimCyborg</title>
+
+  <!-- Favicon (PNG) -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <!-- Optional: cache-bust if needed -->
+  <!-- <link rel="icon" type="image/png" href="favicon.png?v=2"> -->
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: linear-gradient(to bottom, #0a0f1f, #111a33);
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
+    :root{
+      --accent:#00cfff;
+      --accent-soft:#66e0ff;
     }
-    .logo {
-      width: 180px;
-      animation: pulse 1071ms infinite alternate; /* ~56 bpm */
+
+    body{
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      background:linear-gradient(to bottom,#0a0f1f,#111a33);
+      color:#fff;
+      font-family:Arial,Helvetica,sans-serif;
+      text-align:center;
     }
-    @keyframes pulse {
-      from { filter: drop-shadow(0 0 2px #00f7ff); }
-      to { filter: drop-shadow(0 0 20px #00f7ff); }
+
+    /* Responsive logo size: scales with viewport, bounded by min/max */
+    .logo{
+      width:clamp(240px, 24vw, 280px);
+      animation:pulse 1071ms infinite alternate; /* 56 bpm */
     }
-    h1 {
-      font-size: 2.5rem;
-      margin: 20px 0 10px;
+    @keyframes pulse{
+      from{ filter:drop-shadow(0 0 2px #00f7ff); }
+      to  { filter:drop-shadow(0 0 20px #00f7ff); }
     }
-    .swim { color: #00cfff; }
-    .cyborg { color: #ffffff; }
-    .tagline {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
+
+    h1{
+      font-size:clamp(2.2rem, 4.2vw, 3.2rem);
+      margin:20px 0 10px;
     }
-    form {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+    .swim{ color:var(--accent); }
+    .cyborg{ color:#fff; }
+
+    .tagline{
+      font-size:clamp(1.05rem, 2.2vw, 1.25rem);
+      margin-bottom:22px;
+      color:#d4d8e1;
     }
-    input[type="email"] {
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: none;
-      width: 250px;
+
+    form{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
-      background-color: #00cfff;
-      color: black;
-      cursor: pointer;
+    input[type="email"]{
+      padding:12px 14px;
+      font-size:1rem;
+      border-radius:8px;
+      border:none;
+      width:min(320px, 70vw);
     }
-    button:hover {
-      background-color: #00aacc;
+    button{
+      padding:12px 18px;
+      font-size:1rem;
+      border:none;
+      border-radius:8px;
+      background:var(--accent);
+      color:#000;
+      cursor:pointer;
+      font-weight:700;
     }
-    footer {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #aaa;
+    button:hover{ background:#00aacc; }
+
+    #form-message{ margin-top:10px; font-size:.95rem; }
+
+    footer{
+      margin-top:28px;
+      font-size:.9rem;
+      color:#aab2c3;
     }
-    a {
-      color: #00cfff;
-      text-decoration: none;
-    }
+    a{ color:var(--accent); text-decoration:none; }
   </style>
 </head>
 <body>
